@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, List, ListItem, ListItemIcon, TextField, ListItemSecondaryAction, IconButton, Divider, Fab } from '@material-ui/core';
-import { Remove, Add } from '@material-ui/icons';
+import { Remove, Add, Delete } from '@material-ui/icons';
 
 export interface IDrinks {
     title: string;
@@ -21,6 +21,11 @@ export const Drinks: React.FC = () => {
         setDrinks([...drinks]);
         sessionStorage.setItem('drinks', JSON.stringify(drinks));
     };
+
+    const removeDrink = (key: number) => {
+        const newDrinks = drinks.filter((x, k) => k !== key);
+        setDrinks(newDrinks);
+    };
     return (
         <>
             <Typography component={'h1'} variant={'h4'} className={'header'}>
@@ -35,10 +40,13 @@ export const Drinks: React.FC = () => {
                             </ListItemIcon>
                             <TextField value={x.title} onChange={e => setDrink(k, { ...x, title: e.target.value })} placeholder={'Drink name'} />
                             <ListItemSecondaryAction>
+                                <IconButton edge={'end'} aria-label={'remove'} onClick={() => removeDrink(k)}>
+                                    <Delete />
+                                </IconButton>
                                 <IconButton aria-label={'minus'} onClick={() => setDrink(k, { ...x, count: x.count - 1 })}>
                                     <Remove />
                                 </IconButton>
-                                <IconButton edge={'end'} aria-label={'add'} onClick={() => setDrink(k, { ...x, count: x.count + 1 })}>
+                                <IconButton aria-label={'add'} onClick={() => setDrink(k, { ...x, count: x.count + 1 })}>
                                     <Add />
                                 </IconButton>
                             </ListItemSecondaryAction>
@@ -47,6 +55,7 @@ export const Drinks: React.FC = () => {
                     </>
                 ))}
             </List>
+
             <Fab color={'primary'} aria-label={'add'} className={'fab'} onClick={() => addDrink()}>
                 <Add />
             </Fab>
