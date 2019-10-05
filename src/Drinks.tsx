@@ -7,19 +7,18 @@ export interface IDrinks {
     count: number;
 }
 export const Drinks: React.FC = () => {
-    const storage = sessionStorage.getItem('drinks');
-    console.log(storage);
+    const storage = localStorage.getItem('drinks');
     const [drinks, setDrinks] = React.useState<IDrinks[]>(storage ? JSON.parse(storage) : [{ title: 'Cabernet sauvignon', count: 1 }]);
     const addDrink = () => {
         const newDrinks = [...drinks, { title: '', count: 1 }];
         setDrinks(newDrinks);
-        sessionStorage.setItem('drinks', JSON.stringify(newDrinks));
+        localStorage.setItem('drinks', JSON.stringify(newDrinks));
     };
 
     const setDrink = (key: number, drink: IDrinks) => {
         drinks[key] = drink;
         setDrinks([...drinks]);
-        sessionStorage.setItem('drinks', JSON.stringify(drinks));
+        localStorage.setItem('drinks', JSON.stringify(drinks));
     };
 
     const removeDrink = (key: number) => {
